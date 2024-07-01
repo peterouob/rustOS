@@ -12,8 +12,17 @@ pub extern "C" fn _start() -> ! {
     println!("Hello World{}", "!");
 
     blog_os::init();
-    x86_64::instructions::interrupts::int3();
+    //double fault
+    // unsafe {
+    //     *(0xdeadbeff as *mut u8) = 42;
+    // }
 
+    fn stack_overflow(){
+        stack_overflow();
+    }
+
+    stack_overflow();
+    
     #[cfg(test)]
     test_main();
 
