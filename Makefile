@@ -1,6 +1,6 @@
 run:
 	cargo run
-test:
+lib:
 	cargo test --lib
 test_stack:
 	 cargo test --test stack_overflow

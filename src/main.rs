@@ -6,7 +6,6 @@
 
 use core::panic::PanicInfo;
 use blog_os::println;
-
 #[no_mangle]
 pub extern "C" fn _start() -> ! {
     println!("Hello World{}", "!");
@@ -16,17 +15,13 @@ pub extern "C" fn _start() -> ! {
     // unsafe {
     //     *(0xdeadbeff as *mut u8) = 42;
     // }
-
-    fn stack_overflow(){
-        stack_overflow();
-    }
-
-    stack_overflow();
-    
     #[cfg(test)]
     test_main();
 
-    loop {}
+    loop {
+        use blog_os::print;
+        print!("-");
+    }
 }
 
 /// This function is called on panic.
