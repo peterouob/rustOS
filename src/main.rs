@@ -15,10 +15,16 @@ pub extern "C" fn _start() -> ! {
     // unsafe {
     //     *(0xdeadbeff as *mut u8) = 42;
     // }
-    let ptr = 0xdeadbeff as *mut u8;
+    let ptr = 0x2031b2 as *mut u8;
+    unsafe {
+        let x= *ptr;
+    }
+    println!("read work");
     unsafe {
         *ptr = 42;
     }
+    println!("write work");
+
     #[cfg(test)]
     test_main();
     println!("it doesn't crash");
