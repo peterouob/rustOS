@@ -10,6 +10,8 @@ pub mod serial;
 pub mod vga_buffer;
 pub mod interrupts;
 pub mod gdt;
+pub mod memory;
+
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 #[repr(u32)]
 pub enum QemuExitCode {
@@ -69,10 +71,13 @@ pub fn hlt_loop() -> !{
     }
 }
 
-/// Entry point for `cargo test`
 #[cfg(test)]
-#[no_mangle]
-pub extern "C" fn _start() -> ! {
+use bootloader::{entry_point,BootInfo};
+
+#[cfg(test)]
+entry_point!(kernal_main);
+#[cfg(test)]
+fn kernal_main(boot_info : &'static BootInfo) -> ! {
     init();
     test_main();
     hlt_loop()
