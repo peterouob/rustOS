@@ -15,6 +15,7 @@ use blog_os::{allocator, println};
 use bootloader::{BootInfo,entry_point};
 use blog_os::memory::BootInfoFrameAllocator;
 use blog_os::task::{Task, simple_executor::SimpleExecutor, keyboard};
+use blog_os::task::executor::Executor;
 entry_point!(kernel_main);
 fn kernel_main(boot_info: &'static BootInfo) -> ! {
     use blog_os::memory;
@@ -44,7 +45,7 @@ fn kernel_main(boot_info: &'static BootInfo) -> ! {
     core::mem::drop(reference_counted);
     println!("reference count is {} now ",Rc::strong_count(&cloned_reference));
 
-    let mut executor = SimpleExecutor::new();
+    let mut executor = Executor::new();
     executor.spawn(Task::new(example_task()));
     executor.spawn(Task::new(keyboard::print_keypress()));
     executor.run();
