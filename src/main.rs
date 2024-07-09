@@ -14,7 +14,7 @@ use core::panic::PanicInfo;
 use blog_os::{allocator, println};
 use bootloader::{BootInfo,entry_point};
 use blog_os::memory::BootInfoFrameAllocator;
-
+use blog_os::task::{Task,simple_executor::SimpleExecutor};
 entry_point!(kernel_main);
 fn kernel_main(boot_info: &'static BootInfo) -> ! {
     use blog_os::memory;
@@ -44,10 +44,23 @@ fn kernel_main(boot_info: &'static BootInfo) -> ! {
     core::mem::drop(reference_counted);
     println!("reference count is {} now ",Rc::strong_count(&cloned_reference));
 
+    let mut executor = SimpleExecutor::new();
+    executor.spawn(Task::new(example_task()));
+    executor.run();
+
     #[cfg(test)]
     test_main();
     println!("it doesn't crash");
     blog_os::hlt_loop();
+}
+
+async fn async_number() -> u32 {
+    42
+}
+
+async fn example_task(){
+    let number = async_number().await;
+    println!("async number: {}",number);
 }
 
 /// This function is called on panic.

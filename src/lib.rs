@@ -13,7 +13,7 @@ pub mod interrupts;
 pub mod gdt;
 pub mod memory;
 pub mod allocator;
-
+pub mod task;
 extern crate alloc;
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 #[repr(u32)]
