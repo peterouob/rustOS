@@ -1,5 +1,5 @@
 pub mod simple_executor;
-mod keyboard;
+pub mod keyboard;
 
 use alloc::boxed::Box;
 use core::future::Future;

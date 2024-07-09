@@ -14,7 +14,7 @@ use core::panic::PanicInfo;
 use blog_os::{allocator, println};
 use bootloader::{BootInfo,entry_point};
 use blog_os::memory::BootInfoFrameAllocator;
-use blog_os::task::{Task,simple_executor::SimpleExecutor};
+use blog_os::task::{Task, simple_executor::SimpleExecutor, keyboard};
 entry_point!(kernel_main);
 fn kernel_main(boot_info: &'static BootInfo) -> ! {
     use blog_os::memory;
@@ -46,6 +46,7 @@ fn kernel_main(boot_info: &'static BootInfo) -> ! {
 
     let mut executor = SimpleExecutor::new();
     executor.spawn(Task::new(example_task()));
+    executor.spawn(Task::new(keyboard::print_keypress()));
     executor.run();
 
     #[cfg(test)]
